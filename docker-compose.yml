@@ -13,3 +13,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  http:
+    image: strm/helloworld-http
+    ports:
+      - "80:80"

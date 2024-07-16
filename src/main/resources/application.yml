@@ -4,3 +4,5 @@ logging:
             springframework:
                 jdbc: TRACE
                 transaction: DEBUG
+server:
+    url: http://localhost:80
