@@ -4,6 +4,9 @@ logging:
             springframework:
                 jdbc: TRACE
                 transaction: DEBUG
+bookstore:
+    runner:
+        enabled: true
 audit:
     server:
         url: http://localhost:9090
