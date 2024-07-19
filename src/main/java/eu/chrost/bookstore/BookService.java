@@ -1,6 +1,7 @@
 package eu.chrost.bookstore;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class BookService {
     private final JdbcClient jdbcClient;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     public List<Book> getAllBooks() {
         return jdbcClient.sql("""
@@ -76,7 +78,9 @@ class BookService {
                 .param("title", title)
                 .param("pages", pages)
                 .update(keyHolder);
-        return keyHolder.getKeyAs(Long.class);
+       var bookId = keyHolder.getKeyAs(Long.class);
+       applicationEventPublisher.publishEvent(new BookAddedEvent(new BookWithAuthor(authorFirstName, authorLastName, title)));
+       return bookId;
     }
 
     public boolean authorExists(String authorFirstName, String authorLastName) {
