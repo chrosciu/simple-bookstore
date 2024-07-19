@@ -14,6 +14,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Slf4j
 class BookstoreRunner implements CommandLineRunner {
     private final BookService bookService;
+    private final AuditService auditService;
     private final PlatformTransactionManager transactionManager;
 
     @Override
@@ -27,5 +28,6 @@ class BookstoreRunner implements CommandLineRunner {
 
             transactionStatus.setRollbackOnly();
         });
+        log.info("Audit messages: {}", auditService.getAuditMessages());
     }
 }
