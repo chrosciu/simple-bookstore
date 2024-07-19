@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 5
 
-  http:
-    image: strm/helloworld-http
+  audit-server:
+    image: chrosciu/simple-audit-server:1
     ports:
-      - "80:80"
+      - "9090:8080"
