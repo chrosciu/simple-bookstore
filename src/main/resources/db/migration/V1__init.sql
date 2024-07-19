@@ -14,6 +14,7 @@ create table books
     title     varchar(255) not null,
     pages     int          not null,
     primary key (id),
+    unique (author_id, title),
     constraint fk_books_authors
         foreign key (author_id)
             references authors (id)
