@@ -1,6 +1,8 @@
 package eu.chrost.bookstore;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Testcontainers
 @Slf4j
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class AuditServiceTest {
 
     @Container
@@ -40,7 +43,9 @@ class AuditServiceTest {
         assertThat(auditMessages).containsExactly("Something happened");
     }
 
-
-
-
+    @Test
+    void audit_entry_from_blank_message_should_not_be_created() {
+        var auditEntryCreationResult = auditService.createAuditEntry("");
+        assertThat(auditEntryCreationResult).isFalse();
+    }
 }

@@ -30,12 +30,18 @@ class AuditService {
     private String serverUrl;
 
     public boolean createAuditEntry(String message) {
-        var responseEntity = RestClient.create().post()
+        return RestClient.create().post()
                 .uri(serverUrl + "/audit")
                 .body(AuditInputDto.builder().message(message).build())
-                .retrieve()
-                .toBodilessEntity();
-        return responseEntity.getStatusCode().equals(HttpStatus.CREATED);
+                .exchange(((clientRequest, clientResponse) -> {
+                    if (clientResponse.getStatusCode().equals(HttpStatus.I_AM_A_TEAPOT)) {
+                        return false;
+                    } else if (clientResponse.getStatusCode().equals(HttpStatus.CREATED)) {
+                        return true;
+                    } else {
+                        throw new IllegalStateException("Unexpected response status: " + clientResponse.getStatusCode());
+                    }
+                }));
     }
 
     public List<String> getAuditMessages() {
