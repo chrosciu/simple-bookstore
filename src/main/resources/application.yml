@@ -7,3 +7,6 @@ logging:
 bookstore:
     runner:
         enabled: true
+audit:
+    server:
+        url: http://localhost:9090

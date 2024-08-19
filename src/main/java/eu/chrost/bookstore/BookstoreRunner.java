@@ -15,6 +15,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 class BookstoreRunner implements CommandLineRunner {
     private final BookService bookService;
     private final PlatformTransactionManager transactionManager;
+    private final AuditService auditService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -27,5 +28,6 @@ class BookstoreRunner implements CommandLineRunner {
 
             transactionStatus.setRollbackOnly();
         });
+        log.info("Audit messages: {}", auditService.getAuditMessages());
     }
 }

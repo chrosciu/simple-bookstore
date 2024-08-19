@@ -13,6 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class BookService {
     private final JdbcClient jdbcClient;
+    private final AuditService auditService;
 
     public List<Book> getAllBooks() {
         return jdbcClient.sql("""
@@ -76,7 +77,10 @@ class BookService {
                 .param("title", title)
                 .param("pages", pages)
                 .update(keyHolder);
-        return keyHolder.getKeyAs(Long.class);
+        var bookId = keyHolder.getKeyAs(Long.class);
+        var bookWithAuthor = new BookWithAuthor(authorFirstName, authorLastName, title);
+        auditService.createAuditEntry("A book has been added: " + bookWithAuthor);
+        return bookId;
     }
 
     public boolean authorExists(String authorFirstName, String authorLastName) {
