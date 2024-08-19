@@ -13,3 +13,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  audit-server:
+    image: chrosciu/simple-audit-server:1
+    ports:
+      - "9090:8080"
