@@ -66,6 +66,6 @@ class BookServiceTest {
         //then
         assertThat(newBookId).isNotNull();
         assertThat(bookService.authorExists("Zygmunt", "Krasiński")).isTrue();
-        //assertThat(bookService.getBooksOfGivenAuthor("Zygmunt", "Krasiński")).hasSize(1);
+        assertThat(bookService.getBooksOfGivenAuthor("Zygmunt", "Krasiński")).hasSize(1);
     }
 }
