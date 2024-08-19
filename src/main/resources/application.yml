@@ -4,3 +4,6 @@ logging:
             springframework:
                 jdbc: TRACE
                 transaction: DEBUG
+bookstore:
+    runner:
+        enabled: true
